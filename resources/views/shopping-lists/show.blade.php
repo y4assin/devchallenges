@@ -17,19 +17,26 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($shoppingList->products as $product)
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md flex flex-col justify-between">
+                <div class="bg-gradient-to-br from-yellow-100 to-yellow-200 p-4 rounded-lg shadow-md flex flex-col justify-between">
                     <div>
                         <h2 class="text-xl font-semibold text-gray-800">{{ $product->name }}</h2>
                         <p class="text-sm text-gray-600">Categoria: {{ $product->category->name ?? 'Sense Categoria' }}</p>
+                        @if($product->tags->isNotEmpty())
+                            <p class="text-sm text-gray-600">Tags: 
+                                @foreach($product->tags as $tag)
+                                    <span class="inline-block bg-gray-200 text-gray-800 px-2 py-1 rounded">{{ $tag->name }}</span>
+                                @endforeach
+                            </p>
+                        @endif
                     </div>
                     <div class="mt-4 flex justify-between">
-                        <button @click="open = true; product = {{ $product }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition duration-300">
+                        <button @click="open = true; product = {{ $product }}" class="bg-purple-500 text-white px-3 py-1 rounded hover:bg-purple-600 transition duration-300">
                             Editar
                         </button>
                         <form method="POST" action="{{ route('products.destroy', $product->id) }}" @submit.prevent="if(confirm('¿Estás seguro de que deseas eliminar este producto?')) $event.target.submit()">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300">
+                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300">
                                 Eliminar
                             </button>
                         </form>
@@ -59,6 +66,10 @@
                                 <option :selected="product && product.category_id == {{ $category->id }}" value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="new_tags" class="block text-sm font-medium text-gray-700">Tags (separats per comes)</label>
+                        <input type="text" name="new_tags" id="new_tags" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                     </div>
                     <div class="flex justify-end">
                         <button type="button" @click="open = false" class="bg-gray-500 text-white px-4 py-2 rounded mr-2 hover:bg-gray-600 transition duration-300">

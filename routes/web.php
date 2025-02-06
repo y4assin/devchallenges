@@ -37,10 +37,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/shopping-lists/create', [ShoppingListController::class, 'create'])->name('shopping-lists.create');
     Route::post('/shopping-lists', [ShoppingListController::class, 'store'])->name('shopping-lists.store');
     Route::get('/shopping-lists/{id}', [ShoppingListController::class, 'show'])->name('shopping-lists.show');
+    Route::delete('/shopping-lists/{id}', [ShoppingListController::class, 'destroy'])->name('shopping-lists.destroy'); // Ruta para eliminar listas
 
     // Categories
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
-
+    Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    
     // Productes
     Route::post('/products', [ProductController::class, 'store'])->name('products.store'); // Ruta para almacenar nuevos productos
     Route::post('/products/{id}/toggle', [ProductController::class, 'toggleCompleted'])->name('products.toggle');

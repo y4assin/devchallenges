@@ -11,15 +11,21 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div x-data="{ dropdownOpen: false }" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('shopping-lists.index') }}" :active="request()->routeIs('shopping-lists.index')">
-                        {{ __('Shopping Lists') }}
-                    </x-nav-link>
+                    <div class="relative mt-5" @mouseenter="dropdownOpen = true" @mouseleave="dropdownOpen = false">
+                        <x-nav-link href="{{ route('shopping-lists.index') }}" :active="request()->routeIs('shopping-lists.index')">
+                            {{ __('Shopping Lists') }}
+                        </x-nav-link>
+                        <div x-show="dropdownOpen" class="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                            <a href="{{ route('categories.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                {{ __('Categories') }}
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <!-- Teams Dropdown -->

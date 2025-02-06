@@ -24,15 +24,24 @@
                 @endphp
                 @foreach($shoppingLists as $index => $list)
                     <div class="{{ $colors[$index % count($colors)] }} p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 h-48 flex flex-col justify-between">
-                        <a href="{{ route('shopping-lists.show', $list->id) }}" class="flex flex-col items-start text-lg font-semibold text-gray-800 hover:text-gray-900">
-                            <span class="mb-2 text-2xl text-gray-900">{{ $list->name }}</span>
-                            <ul class="mb-2 text-sm text-gray-700">
-                                @foreach($list->products->take(3) as $product)
-                                    <li>- {{ $product->name }}</li>
-                                @endforeach
-                            </ul>
-                            <span class="text-sm text-gray-900">{{ $list->products->count() }} productes</span>
-                        </a>
+                        <div class="flex-grow">
+                            <a href="{{ route('shopping-lists.show', $list->id) }}" class="flex flex-col items-start text-lg font-semibold text-gray-800 hover:text-gray-900 mb-4">
+                                <span class="mb-2 text-2xl text-gray-900">{{ $list->name }}</span>
+                                <ul class="mb-2 text-sm text-gray-700">
+                                    @foreach($list->products->take(3) as $product)
+                                        <li>- {{ $product->name }}</li>
+                                    @endforeach
+                                </ul>
+                                <span class="text-sm text-gray-900">{{ $list->products->count() }} productes</span>
+                            </a>
+                        </div>
+                        <form method="POST" action="{{ route('shopping-lists.destroy', $list->id) }}" class="mt-2">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300">
+                                Eliminar Llista
+                            </button>
+                        </form>
                     </div>
                 @endforeach
             </div>
