@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use App\Http\Controllers\ShoppingListController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
-
+use App\Http\Controllers\PredefinedProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +53,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/products/{id}/toggle', [ProductController::class, 'toggleCompleted'])->name('products.toggle');
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update'); // Ruta para actualizar productos
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy'); // Ruta para eliminar productos
+
+    // Predefined Products
+    Route::get('/predefined-products', [PredefinedProductController::class, 'index'])->name('predefined-products.index');
+    Route::get('/predefined-products/create', [PredefinedProductController::class, 'create'])->name('predefined-products.create');
+    Route::post('/predefined-products', [PredefinedProductController::class, 'store'])->name('predefined-products.store');
+    Route::get('/predefined-products/{id}', [PredefinedProductController::class, 'show'])->name('predefined-products.show');
+    Route::get('/predefined-products/{id}/edit', [PredefinedProductController::class, 'edit'])->name('predefined-products.edit');
+    Route::put('/predefined-products/{id}', [PredefinedProductController::class, 'update'])->name('predefined-products.update');
+    Route::delete('/predefined-products/{id}', [PredefinedProductController::class, 'destroy'])->name('predefined-products.destroy');
+
+    // Compartir listas
+    Route::post('/shopping-lists/{id}/share', [ShoppingListController::class, 'share'])->name('shopping-lists.share');
 
 });
 

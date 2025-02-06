@@ -23,6 +23,9 @@
                             <a href="{{ route('categories.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 {{ __('Categories') }}
                             </a>
+                            <a href="{{ route('predefined-products.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                {{ __('Predefined Products') }}
+                            </a>
                         </div>
                     </div>
                 </div>

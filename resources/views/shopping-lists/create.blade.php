@@ -37,24 +37,24 @@
             const productDiv = document.createElement('div');
             productDiv.classList.add('flex', 'items-center', 'space-x-2');
 
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.name = 'products[]';
-            input.placeholder = 'Nom del producte';
-            input.classList.add('mt-1', 'block', 'w-full', 'border-gray-300', 'rounded-md', 'shadow-sm');
+            const inputProduct = document.createElement('input');
+            inputProduct.type = 'text';
+            inputProduct.name = 'new_products[]';
+            inputProduct.placeholder = 'Escriu un nou producte';
+            inputProduct.classList.add('mt-1', 'block', 'w-full', 'border-gray-300', 'rounded-md', 'shadow-sm');
 
-            const select = document.createElement('select');
-            select.name = 'categories[]';
-            select.classList.add('mt-1', 'block', 'w-full', 'border-gray-300', 'rounded-md', 'shadow-sm');
+            const selectCategory = document.createElement('select');
+            selectCategory.name = 'categories[]';
+            selectCategory.classList.add('mt-1', 'block', 'w-full', 'border-gray-300', 'rounded-md', 'shadow-sm');
             let option = document.createElement('option');
             option.value = '';
             option.textContent = 'Selecciona una categoria';
-            select.appendChild(option);
+            selectCategory.appendChild(option);
             @foreach($categories as $category)
                 option = document.createElement('option');
                 option.value = '{{ $category->id }}';
                 option.textContent = '{{ $category->name }}';
-                select.appendChild(option);
+                selectCategory.appendChild(option);
             @endforeach
 
             const removeButton = document.createElement('button');
@@ -65,11 +65,11 @@
                 productList.removeChild(productDiv);
             });
 
-            productDiv.appendChild(input);
-            productDiv.appendChild(select);
+            productDiv.appendChild(inputProduct);
+            productDiv.appendChild(selectCategory);
             productDiv.appendChild(removeButton);
             productList.appendChild(productDiv);
         });
     });
-</script>
+    </script>
 @endsection
