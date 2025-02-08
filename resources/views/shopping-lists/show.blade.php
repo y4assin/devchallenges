@@ -4,40 +4,41 @@
 
 @section('content')
     <div class="container mx-auto px-4 py-8" x-data="{ open: false, product: null }">
-        <h1 class="text-3xl font-extrabold text-gray-900 mb-6">{{ $shoppingList->name }}</h1>
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-6 text-center">🛒 {{ $shoppingList->name }}</h1>
 
-        <div class="mb-4 flex justify-between">
-            <a href="{{ route('shopping-lists.index') }}" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-full shadow hover:bg-indigo-700 transition duration-300">
+        <div class="mb-6 flex justify-between items-center">
+            <a href="{{ route('shopping-lists.index') }}" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300">
                 ← Tornar a les Llistes
             </a>
-            <button @click="open = true" class="bg-teal-500 text-white px-4 py-2 rounded-full shadow hover:bg-teal-600 transition duration-300">
+            <button @click="open = true; product = null" class="bg-teal-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-teal-600 transition duration-300">
                 + Afegir Producte
             </button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach($shoppingList->products as $product)
-                <div class="bg-gradient-to-br from-yellow-100 to-yellow-200 p-4 rounded-lg shadow-md flex flex-col justify-between">
-                    <div>
-                        <h2 class="text-xl font-semibold text-gray-800">{{ $product->name }}</h2>
-                        <p class="text-sm text-gray-600">Categoria: {{ $product->category->name ?? 'Sense Categoria' }}</p>
-                        @if($product->tags->isNotEmpty())
-                            <p class="text-sm text-gray-600">Tags: 
-                                @foreach($product->tags as $tag)
-                                    <span class="inline-block bg-gray-200 text-gray-800 px-2 py-1 rounded">{{ $tag->name }}</span>
-                                @endforeach
-                            </p>
-                        @endif
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-300 flex flex-col justify-between">
+                    <div class="flex items-center space-x-4">
+                        <input type="checkbox" class="form-checkbox h-6 w-6 text-green-500" @click="toggleProduct({{ $product->id }})" :checked="{{ $product->completed ? 'true' : 'false' }}">
+                        <h2 :class="{ 'line-through text-gray-500': {{ $product->completed ? 'true' : 'false' }} }" class="text-xl font-semibold text-gray-900">{{ $product->name }}</h2>
                     </div>
-                    <div class="mt-4 flex justify-between">
-                        <button @click="open = true; product = {{ $product }}" class="bg-purple-500 text-white px-3 py-1 rounded hover:bg-purple-600 transition duration-300">
-                            Editar
+                    <p class="text-sm text-gray-600 mt-2">📁 Categoria: <span class="font-semibold">{{ $product->category->name ?? 'Sense Categoria' }}</span></p>
+                    @if($product->tags->isNotEmpty())
+                        <p class="text-sm text-gray-600 mt-1">🏷️ Tags: 
+                            @foreach($product->tags as $tag)
+                                <span class="inline-block bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-xs font-medium">{{ $tag->name }}</span>
+                            @endforeach
+                        </p>
+                    @endif
+                    <div class="mt-6 flex justify-between">
+                        <button @click="open = true; product = {{ $product }}" class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition duration-300">
+                            ✏️ Editar
                         </button>
                         <form method="POST" action="{{ route('products.destroy', $product->id) }}" @submit.prevent="if(confirm('¿Estás seguro de que deseas eliminar este producto?')) $event.target.submit()">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300">
-                                Eliminar
+                            <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+                                🗑️ Eliminar
                             </button>
                         </form>
                     </div>

@@ -96,5 +96,13 @@ class ShoppingListController extends Controller
         return redirect()->route('shopping-lists.index')
                          ->with('success', 'Llista compartida amb èxit.');
     }
+    public function toggleProduct($id)
+{
+    $product = Product::findOrFail($id);
+    $product->completed = !$product->completed;
+    $product->save();
+
+    return response()->json(['success' => true, 'completed' => $product->completed]);
+}
 
 }
