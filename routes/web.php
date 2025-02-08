@@ -10,6 +10,7 @@ use App\Http\Controllers\ShoppingListController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PredefinedProductController;
+use App\Http\Controllers\GameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,3 +140,6 @@ Route::get('/dashboard', function () {
 // Mantener otras rutas que requieran autenticación en el grupo
 Route::middleware(['auth'])->group(function () {
 });
+
+Route::get('/game', [GameController::class, 'index'])->name('game.index');
+Route::post('/game/play', [GameController::class, 'play'])->name('game.play');
