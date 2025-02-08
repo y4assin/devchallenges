@@ -1,69 +1,50 @@
-<x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
-
-        <x-validation-errors class="mb-4" />
-
-        @session('status')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ $value }}
-            </div>
-        @endsession
-
-        <form method="POST" action="{{ route('login') }}">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.ico') }}">
+    </head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-center text-gray-800">Iniciar sesión</h2>
+        
+        <form method="POST" action="{{ route('login') }}" class="mt-6">
             @csrf
-
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700">Correo electrónico</label>
+                <input id="email" type="email" name="email" required autofocus class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+            
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700">Contraseña</label>
+                <input id="password" type="password" name="password" required class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+            
+            <div class="flex items-center justify-between">
+                <label class="flex items-center">
+                    <input type="checkbox" name="remember" class="mr-2">
+                    <span class="text-gray-700 text-sm">Recuérdame</span>
                 </label>
+                <a href="{{ route('password.request') }}" class="text-blue-500 text-sm hover:underline">¿Olvidaste tu contraseña?</a>
             </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ms-4">
-                    {{ __('Log in') }}
-                </x-button>
-                <x-button>
-                    <a href="{{ route('register') }}">{{ __('Registrarse') }}</a>
-                  </x-button>
-
-            </div>
+            
+            <button type="submit" class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg">Iniciar sesión</button>
+            
             <div class="mt-4 text-center">
-                <a href="/google-auth/redirect" class="bg-yellow-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                    <i class="fab fa-google"></i> Iniciar con Google
-                </a>
-            </div>
-
-            <div class="mt-4 text-center">
-                <a href="github-auth/redirect"class="bg-yellow-500 hover:bg-black-700 text-white font-bold py-2 px-4 rounded">
-                    <i class="fab fa-github"></i> Iniciar  con Github
-                </a>
-            </div>
-
-            <div class="mt-4 text-center">
-                <a href=" " class="bg-yellow-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                    <i class="fab fa-google"></i> Iniciar con Discord
-                </a>
-            </div>
+            <a href="/google-auth/redirect" class="flex items-center justify-center w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg mt-2">
+    <img src="{{ asset('images/google.svg') }}" alt="Google Logo" class="w-5 h-5 mr-2"> Iniciar con Google
+</a>
+<a href="/github-auth/redirect" class="flex items-center justify-center w-full bg-black hover:bg-gray-900 text-white font-bold py-3 rounded-lg mt-2">
+   <img src="{{ asset('images/github-dark.svg') }}" alt="Github Logo" class="w-5 h-5 mr-3"> Iniciar con Github
+            </a>
+        </div>
         </form>
-    </x-authentication-card>
-</x-guest-layout>
+        
+        <p class="mt-4 text-center text-gray-600">¿No tienes cuenta? <a href="{{ route('register') }}" class="text-blue-500 hover:underline">Regístrate aquí</a></p>
+    </div>
+</body>
+</html>
