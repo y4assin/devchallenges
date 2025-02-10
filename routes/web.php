@@ -11,6 +11,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PredefinedProductController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +69,22 @@ Route::middleware(['auth'])->group(function () {
     // Compartir listas
     Route::post('/shopping-lists/{id}/share', [ShoppingListController::class, 'share'])->name('shopping-lists.share');
 
+    Route::get('/user/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/user/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/user/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/user/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Ruta para actualización de información del perfil
+    Route::put('/user/profile-information', [ProfileController::class, 'updateProfileInformation'])
+        ->name('user-profile-information.update');
+});
+
+// Añade estas rutas de verificación
+Route::middleware('auth')->group(function () {
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('status', 'verification-link-sent');
+    })->name('verification.send');
 });
 
 // Parte de GOOGLE
